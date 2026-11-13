@@ -1,0 +1,6 @@
+name: model_a
+model:
+  kind: baseline            # ResNet-18, grayscale, six logits, trained from scratch, class labels only
+  with_decoder: false
+loss:
+  aux_weight: 0.0           # no mask supervision

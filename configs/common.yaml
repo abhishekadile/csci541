@@ -1,0 +1,39 @@
+# Settings shared by BOTH models so the comparison is controlled.
+# Anything that differs between model A and B lives in model_a.yaml / model_b.yaml.
+seed: 42
+
+split:
+  id: carinthia_s_70_15_15_seed42
+  seed: 42
+  fractions: {train: 0.70, val: 0.15, test: 0.15}
+  near_duplicate:        # grouped into one split; see ml/audit.py
+    dhash_max_distance: 3
+    min_correlation: 0.98
+
+data:
+  input_size: [480, 480]   # verified native resolution; images are never resized or cropped
+  augment:                 # train split only
+    vflip_p: 0.5
+    hflip_p: 0.0           # off by default: images have a fixed 3-px black border on the right
+    max_translate_px: 16
+    brightness: 0.10
+    contrast: 0.10
+  num_workers: 0           # Windows-safe default; raise to 2-4 for speed if it works on your machine
+
+train:
+  batch_size: 8            # use 4 or 2 on out-of-memory; resolution is not reduced
+  max_epochs: 50
+  early_stopping_patience: 10
+  optimizer: adamw
+  lr: 0.001
+  weight_decay: 0.0001
+  amp: true                # FP16 autocast on CUDA; ignored on CPU
+  class_weighting: sqrt_inverse   # none | sqrt_inverse | balanced ; computed from the TRAIN split only
+  grad_clip_norm: 5.0
+  # Model selection rule (identical for both models): highest validation macro-F1,
+  # ties broken by lower validation cross-entropy.
+  selection_metric: val_macro_f1
+
+eval:
+  mask_threshold: 0.5
+  gallery_per_kind: 6

@@ -1,0 +1,4 @@
+# Training / evaluation / API on your laptop. torch/torchvision are installed separately
+# (CUDA build, see README and scripts/setup.ps1).
+-r requirements-api.txt
+matplotlib==3.10.3

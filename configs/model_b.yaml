@@ -1,0 +1,7 @@
+name: model_b
+model:
+  kind: mask_supervised     # same ResNet-18 encoder + head, plus lightweight segmentation decoder
+  with_decoder: true
+loss:
+  # total = class_weighted_cross_entropy + aux_weight * (BCE(mask) + soft_Dice(mask))
+  aux_weight: 1.0

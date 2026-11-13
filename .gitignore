@@ -1,0 +1,32 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Secrets / local config
+.env
+
+# Generated outputs: never commit images, weights or experiment outputs
+artifacts/*
+!artifacts/.gitkeep
+*.pt
+*.pth
+*.ckpt
+
+# Dataset must stay outside the codebase
+data/
+data-carinthia-s/
+*.jpg
+*.jpeg
+!tests/fixtures/**
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Trained weights live here (never committed)
+weight/*
+!weight/.gitkeep

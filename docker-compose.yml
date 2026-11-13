@@ -1,0 +1,23 @@
+# docker compose up --build
+# Serves UI + API on http://localhost:8000 (CPU inference).
+# The checkpoint and results are mounted READ-ONLY; nothing is written inside the container.
+services:
+  wafer-inspection:
+    build: .
+    image: wafer-inspection:cpu
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_CHECKPOINT_PATH: /models/best.pt
+      RESULTS_DIR: /results
+      INFERENCE_DEVICE: cpu
+    volumes:
+      # Choose which trained model to serve: model_b (mask-supervised) or model_a (baseline).
+      - ./weight/model_b:/models:ro
+      - ./artifacts/results:/results:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped

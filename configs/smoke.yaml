@@ -1,0 +1,3 @@
+# Overlay used only by the smoke test. Outputs go to artifacts/smoke/ and are marked non-production.
+train:
+  batch_size: 2
